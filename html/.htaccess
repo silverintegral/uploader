@@ -1,0 +1,31 @@
+php_value upload_max_filesize "100G"
+php_value post_max_size "101G"
+php_value memory_limit "512M"
+php_value max_file_uploads "10000"
+php_value max_execution_time "1800"
+php_value max_input_time "1800"
+  
+#php_value session.gc_maxlifetime "864000"
+#php_value session.cookie_lifetime "864000"
+
+<IfModule mod_rewrite.c>
+RewriteEngine on
+#RewriteRule ^up$ upload.php [L]
+RewriteRule ^([0-9a-zA-Z]{8,13})$ list.php?id=$1 [L]
+RewriteRule ^([0-9a-zA-Z]{8,13})\/[zZ]\/?([^\/]+)?\/?$ zip.php?id=$1&f=$2 [L]
+RewriteRule ^([0-9a-zA-Z]{8,13})\/([^\.]+\.[^\/]+)@[vV]$ view.php?id=$1&p=$2 [L]
+RewriteRule ^([0-9a-zA-Z]{8,13})\/([^\.]+\.[^\/]+)\/?$ get.php?id=$1&p=$2 [L]
+RewriteRule ^([0-9a-zA-Z]{8,13})\/([^\.]+\.[^\/]+)\/[dD]\/?$ get.php?id=$1&p=$2&a=dl [L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule .* index.php [L]
+RewriteRule ^__data\/ - [L,R=403]
+</IfModule>
+
+#<IfModule mod_expires.c>
+#ExpiresActive On
+#<FilesMatch "\.(s|m)$">
+#ExpiresDefault "modification plus 1 month"
+#</FilesMatch>
+#</IfModule> 
